@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Status indicator</title>
+	<script src="js/d3.v3.js"></script>
+	<style>
+		div.chart{
+			font-family:sans-serif;
+			font-size:0.7em;
+		}
+		div.bar{
+			background-color: DarkRed;
+			color:white;
+			height:3em;
+			line-height: 3em;
+			padding-right:1em;
+			margin-bottom:2px;
+			text-align:right;
+			float:left;
+		}
+
+		div.label{
+			height:3em;
+			line-height: 3em;
+			padding-right:1em;
+			margin-bottom:2px;
+			float:left;
+			width:10em;
+			text-align: right;
+		}
+
+		div.line {
+			clear:both;
+		}
+	</style>
+</head>
+<body>
+
+
+<script>
+	function draw(data){
+		"use strict";
+
+		d3.select("body")
+			.append("div")
+			.attr("class","chart")
+			.selectAll("div.line")
+
+			.data(data.family)
+			.enter()
+
+			.append("div")
+			.attr("class","line");
+
+		d3.selectAll(".line")
+			.append("div")
+			.attr("class","label")
+			.text(function(d){return d.name;});
+
+		d3.selectAll(".line")
+			.append("div")
+			.attr("class","bar")
+			.style("width",function(d){return d.age * 5 + "px";})
+			.text(function (d){
+				return Math.round(d.age);
+			});
+
+	}
+
+	d3.json("data/barchart.json",draw);
+</script>	
+</body>
+</html>
